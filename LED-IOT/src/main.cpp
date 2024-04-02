@@ -8,6 +8,8 @@ int led3 = LED_BUILTIN;
 
 const char *ap_ssid = "kuda";
 const char *ap_password = "12345678";
+const char *sta_ssid = "TEKNIK UNSOED D3";
+const char *sta_password = "";
 
 AsyncWebServer server(80);
 String webpage;
@@ -21,13 +23,32 @@ void setup()
   Serial.begin(9600);
   delay(10);
 
-  Serial.println("Configuring access point");
-  WiFi.mode(WIFI_AP);
-  WiFi.softAP(ap_ssid, ap_password);
-  Serial.print("Wifi: ");
-  Serial.println(ap_ssid);
+  // setting access point
+  //  Serial.println("Configuring access point");
+  //  WiFi.mode(WIFI_AP);
+  //  WiFi.softAP(ap_ssid, ap_password);
+  //  Serial.print("Wifi: ");
+  //  Serial.println(ap_ssid);
+  //  Serial.print("IP address: ");
+  //  Serial.println(WiFi.softAPIP());
+
+  // setting mode station
+  Serial.print("Connecting to ");
+  Serial.println(sta_ssid);
+
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(sta_ssid, sta_password);
+
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    delay(300);
+    Serial.print(".");
+  }
+
+  Serial.println("");
+  Serial.println("WiFi connected");
   Serial.print("IP address: ");
-  Serial.println(WiFi.softAPIP());
+  Serial.println(WiFi.localIP());
 
   // webpage
 
